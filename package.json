@@ -1,0 +1,15 @@
+{
+  "name": "jsonextractor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "extractor.js",
+  "scripts": {
+    "extract": "node extractor.js",
+    "update" : "node endpoint.js"
+  },
+  "author": "davin",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.20.0"
+  }
+}
