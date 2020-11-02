@@ -21,7 +21,14 @@ Axios.get('http://127.0.0.1:8080/v2/api-docs?group=Referensi%20API')
             extracted.push(a.getJSON())
         });
     })
-    console.log(JSON.stringify(extracted,undefined,4));
+
+    fs.writeFile('extracted-url.json',JSON.stringify(extracted,undefined,4),(err)=>{
+        if(err){
+            throw err;
+        }
+
+        console.log("Please type npm run update to insert to the API");
+    })
 }).catch(e =>{
     console.log(e)
 });
