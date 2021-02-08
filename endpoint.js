@@ -3,7 +3,7 @@ const {
 } = require("axios");
 const fs = require('fs');
 
-let token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb290ZGF2aW5hbGZhIiwiaWF0IjoxNjA0Mjg4ODQ0LCJleHAiOjE2MDQzNzUyNDR9.ZlW_fHoMgpOOZiibvYZ3h4htZUYQopCmq4u8PANgdffMzRxBZI697Pw35X57hX128nycqBTSBwHnydG6Q3ohGA'
+let token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb290ZGF2aW5hbGZhIiwiaWF0IjoxNjA2MzY5MTcxLCJleHAiOjg4MDA2MzY5MTcxfQ._fdcRwlMf5XTPZrisULDXK9yq-B76uOr0Za2pj9dHxaT228n89YPnnlWCihMg4qPSmwu220GonV8RVvzlfM-yA'
 
 fs.readFile('extracted-url.json', (err, data) => {
     if (err) throw err;
@@ -12,9 +12,17 @@ fs.readFile('extracted-url.json', (err, data) => {
     endpoint.forEach(ep => {
         let url = ep.url.split('/')
         let path = 0
+        let pathstr = null
         for (var i = 0; i < url.length; i++) {
             if (i > 4) {
+                if(i == 5){
+                    pathstr = ''
+                }
                 path += 1;
+                pathstr += url[i]
+                if(i < url.length - 1){
+                    pathstr += "/"
+                }
             }
         }
         let create = "X";
@@ -45,10 +53,27 @@ fs.readFile('extracted-url.json', (err, data) => {
             "base": url[3] + '/' + url[4],
             "method": ep.method,
             "path": path,
+            "pathstr" : pathstr,
         })
     });
+
+    Axios.request({
+        url: 'http://127.0.0.1:8080/api/v1/sc/listendpoint/batch',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
+        method: 'POST',
+        data: datas
+    }).then(thn => {
+        console.log(thn.status)
+    }).catch(e => {
+        console.log(e.message)
+    })
+
+    /*
     for (let i = 0; i < datas.length; i++) {
-        const data = datas[i];
+        let data = datas[i];
+        
         Axios.request({
             url: 'http://127.0.0.1:8080/api/v1/sc/listendpoint',
             headers: {
@@ -62,5 +87,5 @@ fs.readFile('extracted-url.json', (err, data) => {
         }).catch(e => {
             console.log(e.message)
         })
-    }
+    }*/
 })

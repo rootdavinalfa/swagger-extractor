@@ -5,7 +5,7 @@
   "main": "extractor.js",
   "scripts": {
     "extract": "node extractor.js",
-    "update" : "node endpoint.js"
+    "update": "node endpoint.js"
   },
   "author": "davin",
   "license": "ISC",
